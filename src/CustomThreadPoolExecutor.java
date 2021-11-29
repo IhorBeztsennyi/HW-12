@@ -18,9 +18,11 @@ class CustomThreadPoolExecutor extends ThreadPoolExecutor {
     @Override
     public void execute(Runnable command) {
         Class<? extends Runnable> runnableClass = command.getClass();
-        Repeat numberOfRepetition = runnableClass.getAnnotation(Repeat.class);
+        Repeat numberOfRepetition;
+        numberOfRepetition = runnableClass.getAnnotation(Repeat.class);
         for (int i = 0; i < numberOfRepetition.value(); i++) {
             super.execute(command);
         }
+        shutdown();
     }
 }
